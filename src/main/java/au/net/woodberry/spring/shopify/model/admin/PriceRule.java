@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.List;
 
