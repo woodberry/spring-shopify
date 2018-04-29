@@ -2,7 +2,6 @@ package au.net.woodberry.spring.shopify.api.client.interceptors;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -18,7 +17,7 @@ public class PrivateAuthInterceptor implements ClientHttpRequestInterceptor {
 
     private final String baseUrl;
 
-    public PrivateAuthInterceptor(@Qualifier("baseUrl") String baseUrl) {
+    public PrivateAuthInterceptor(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 

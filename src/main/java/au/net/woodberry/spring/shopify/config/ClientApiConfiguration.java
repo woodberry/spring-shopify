@@ -43,6 +43,11 @@ public class ClientApiConfiguration {
         return restTemplate;
     }
 
+    /**
+     * Creates a configured object mapper.
+     *
+     * @return The objectmapper suitable for serialize/asObject Shopify request/response.
+     */
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
@@ -50,13 +55,12 @@ public class ClientApiConfiguration {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
         mapper.setDateFormat(new StdDateFormat());
         return mapper;
     }
 
     @Bean
-    public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter(ObjectMapper objectMapper) {
+    public MappingJackson2HttpMessageConverter messageConverter(ObjectMapper objectMapper) {
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
 }

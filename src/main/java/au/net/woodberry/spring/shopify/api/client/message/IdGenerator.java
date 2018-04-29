@@ -1,4 +1,4 @@
-package au.net.woodberry.spring.shopify.api.client;
+package au.net.woodberry.spring.shopify.api.client.message;
 
 public class IdGenerator {
 
