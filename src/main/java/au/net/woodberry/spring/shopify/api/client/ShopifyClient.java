@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -61,6 +60,17 @@ public class ShopifyClient {
 //        ResponseEntity<PriceRule> priceRuleCreated = shopify.getPriceRuleResource().createNew(priceRule);
 //        shopify.getDiscountCodeResource().createNew(DiscountCode.from(priceRuleCreated.getBody()));
 
-        shopify.getAbandonCheckoutsResource().retrieveList();
+        Count.QueryFilter countFilter = new Count.QueryFilter();
+        countFilter.setCreatedAtMin(ZonedDateTime.now().minusWeeks(1));
+        countFilter.setCreatedAtMax(ZonedDateTime.now());
+        countFilter.setStatus(Status.OPEN);
+
+
+
+        shopify.getAbandonCheckoutsResource().getCount(new Count.QueryFilter());
+//        shopify.getAbandonCheckoutsResource().retrieveList();
+
+
+        return;
     }
 }
