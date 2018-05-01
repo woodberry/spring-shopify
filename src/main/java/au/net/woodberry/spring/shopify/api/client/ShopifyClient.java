@@ -60,15 +60,15 @@ public class ShopifyClient {
 //        ResponseEntity<PriceRule> priceRuleCreated = shopify.getPriceRuleResource().createNew(priceRule);
 //        shopify.getDiscountCodeResource().createNew(DiscountCode.from(priceRuleCreated.getBody()));
 
-        Count.QueryFilter countFilter = new Count.QueryFilter();
-        countFilter.setCreatedAtMin(ZonedDateTime.now().minusWeeks(1));
-        countFilter.setCreatedAtMax(ZonedDateTime.now());
-        countFilter.setStatus(Status.OPEN);
+//        Count.QueryFilter countFilter = new Count.QueryFilter();
+//        countFilter.setCreatedAtMin(ZonedDateTime.now().minusWeeks(1));
+//        countFilter.setCreatedAtMax(ZonedDateTime.now());
+//        countFilter.setStatus(Status.OPEN);
 
 
 
-        shopify.getAbandonCheckoutsResource().getCount(new Count.QueryFilter());
-//        shopify.getAbandonCheckoutsResource().retrieveList();
+//        shopify.getAbandonCheckoutsResource().getCount(new Count.QueryFilter());
+        shopify.getAbandonCheckoutsResource().retrieveList();
 
 
         return;
