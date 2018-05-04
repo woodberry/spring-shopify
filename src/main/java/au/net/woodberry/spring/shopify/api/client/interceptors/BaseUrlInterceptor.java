@@ -7,17 +7,19 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
- * https://help.shopify.com/api/getting-started/authentication/private-authentication
+ * Appends a base URL to the request so that resource classes do not need to inject these themselves.
  */
-public class PrivateAuthInterceptor implements ClientHttpRequestInterceptor {
+@Component
+public class BaseUrlInterceptor implements ClientHttpRequestInterceptor {
 
     private final String baseUrl;
 
-    public PrivateAuthInterceptor(String baseUrl) {
+    public BaseUrlInterceptor(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 

@@ -1,8 +1,7 @@
 package au.net.woodberry.spring.shopify.config;
 
 import au.net.woodberry.spring.shopify.api.client.interceptors.LoggingInterceptor;
-import au.net.woodberry.spring.shopify.api.client.interceptors.PrivateAuthInterceptor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import au.net.woodberry.spring.shopify.api.client.interceptors.BaseUrlInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,8 +26,19 @@ public class ClientApiConfiguration {
     @Autowired
     private ConfigProps configProps;
 
+    /**
+     * A configured shopify-compatible RestTemplate for making calls to the shopify-api via
+     * private-auth
+     *
+     * @param messageConverter A JSON message converter
+     * @param baseUrlInterceptor  An interceptor for adding the base URL to a request
+     * @param loggingInterceptor An interceptor for logging request / response
+     * @return A customized rest template for using the shopify api via private auth
+     */
     @Bean
-    public RestTemplate privateAuthRestTemplate(MappingJackson2HttpMessageConverter messageConverter) {
+    public RestTemplate privateAuthRestTemplate(MappingJackson2HttpMessageConverter messageConverter,
+                                                BaseUrlInterceptor baseUrlInterceptor,
+                                                LoggingInterceptor loggingInterceptor) {
 
         // Buffer the request/response so it can be intercepted and read.
         ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
@@ -38,8 +48,7 @@ public class ClientApiConfiguration {
         ConfigProps.PrivateAuth privateAuth = configProps.getPrivateAuth();
         restTemplate.setInterceptors(Arrays.asList(
                 new BasicAuthorizationInterceptor(privateAuth.getUsername(), privateAuth.getPassword()),
-                new PrivateAuthInterceptor(privateAuth.getBaseUrl()),
-                new LoggingInterceptor()));
+                baseUrlInterceptor, loggingInterceptor));
         return restTemplate;
     }
 
@@ -62,5 +71,15 @@ public class ClientApiConfiguration {
     @Bean
     public MappingJackson2HttpMessageConverter messageConverter(ObjectMapper objectMapper) {
         return new MappingJackson2HttpMessageConverter(objectMapper);
+    }
+
+    @Bean
+    public LoggingInterceptor loggingInterceptor() {
+        return new LoggingInterceptor();
+    }
+
+    @Bean
+    public BaseUrlInterceptor baseUrlInterceptor(ConfigProps configProps) {
+        return new BaseUrlInterceptor(configProps.getBaseUrl());
     }
 }

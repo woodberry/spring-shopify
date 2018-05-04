@@ -2,25 +2,28 @@ package au.net.woodberry.spring.shopify.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
+
+@Validated
 @Configuration
 @ConfigurationProperties(prefix = "woodberry.spring.shopify")
 public class ConfigProps {
 
+    @NotNull
     private PrivateAuth privateAuth;
 
+    @NotNull
+    private String baseUrl;
+
     public static class PrivateAuth {
-        private String baseUrl;
+
+        @NotNull
         private String username;
+
+        @NotNull
         private String password;
-
-        public String getBaseUrl() {
-            return baseUrl;
-        }
-
-        public void setBaseUrl(String baseUrl) {
-            this.baseUrl = baseUrl;
-        }
 
         public String getUsername() {
             return username;
@@ -45,5 +48,13 @@ public class ConfigProps {
 
     public void setPrivateAuth(PrivateAuth privateAuth) {
         this.privateAuth = privateAuth;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 }
